@@ -1,50 +1,35 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-export const SettingsContext = React.createContext();
+export const SettingsContext = React.createContext(); 
 
-class SettingsProvider extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      displayCount: 3,
-      hideCompleted: true,
-      sort: 'difficulty',
-      defaultDifficulty: 3,
-    }
+function SettingsProvider (props) {
+  const [settings, setSettings] = useState({
+    displayCount: 3,
+    hideCompleted: false,
+    sort: 'difficulty',
+    defaultDifficulty: 3,
+    settingsUpdated: false,
+  })
+
+  const updateSettings = ( newSettings ) => {
+    const oldSettings = settings;
+    const { displayCount, hideCompleted } = newSettings;
+
+    const displayCountInt = displayCount || oldSettings.displayCount;
+    
+    const updatedSettings = { ...oldSettings, 
+                              settingsUpdated: true, 
+                              displayCount: displayCountInt, 
+                              hideCompleted
+    };
+    
+    setSettings( updatedSettings );
   }
-
-  
-
-  render() {
-    return (
-      <SettingsContext.Provider value={this.state}>
-        {this.props.children}
-      </SettingsContext.Provider>
-    )
-  }
+  return (
+    <SettingsContext.Provider value={{ updateSettings, settings }}>
+      { props.children }
+    </SettingsContext.Provider>
+  )
 }
 
 export default SettingsProvider;
-
-// components
-// const settings = useContext(SettingContext);
-
-/*
-example of settings and auth:
-function App() {
-  const [theme, setTheme] = useState('dark');
-  const [currentUser, setCurrentUser] = useState({ name: 'Taylor' });
-
-  // ...
-
-  return (
-    <ThemeContext.Provider value={theme}>
-      <AuthContext.Provider value={currentUser}>
-        <Page />
-      </AuthContext.Provider>
-    </ThemeContext.Provider>
-  );
-}
-
-*/
-

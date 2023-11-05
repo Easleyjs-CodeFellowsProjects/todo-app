@@ -1,4 +1,3 @@
-import { SettingsContext } from '../../Context/Settings/index';
 import { Card, Text, Badge, Button, Group, CloseButton } from '@mantine/core';
 
 const Todo = ( props ) => {

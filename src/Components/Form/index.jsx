@@ -1,5 +1,5 @@
-import { SettingsContext } from '../../Context/Settings/index'
 import { useContext } from 'react';
+import { SettingsContext } from '../../Context/Settings'
 
 import useForm from '../../hooks/form';
 import { Button, Input, Slider, Space, Text } from '@mantine/core';
@@ -7,13 +7,13 @@ import { Button, Input, Slider, Space, Text } from '@mantine/core';
 import { v4 as uuid } from 'uuid';
 
 const Form = ( props ) => {
-    const settings = useContext(SettingsContext);
+  const settings = useContext(SettingsContext);
+  const { defaultDifficulty } = settings.settings;
     const { handleAddTodo } = props;
 
     const { handleChange, handleSubmit } = useForm(addItem, {
-        difficulty: settings.defaultDifficulty,
+        difficulty: defaultDifficulty,
       });
-    //const { handleChange, handleSubmit } = useForm(addItem);
 
     function addItem( item ) {
         item.id = uuid();
@@ -47,7 +47,7 @@ const Form = ( props ) => {
                 
                 <Text>Difficulty</Text>
                 <Slider onChange={ handleChange } 
-                        defaultValue={ settings.defaultDifficulty } 
+                        defaultValue={ defaultDifficulty } 
                         min={1}
                         max={5}
                         step={1}

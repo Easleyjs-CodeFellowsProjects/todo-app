@@ -14,9 +14,6 @@ uuid sass jest
 Show three items by default.
 Hide completed items by default.
 Add the sort word ‘difficulty’ by default.
-Style the application using the Mantine Component API{target:_blank}.
-
-NOTE: The expectation to style this entire component in one day is likely unrealistic. The recommendation is to implement the required functionality, then systematically begin styling with Mantine. Match the comp image(s) as closely as possible. 80% of the design work will likely take 20% of your time. By the end of the week, being mostly there with style is the goal!
 
 ## Details
 
@@ -40,4 +37,7 @@ the <Pagination /> component will manage the “previous” and “next” butto
 
 ## Feature Documentation
 Describe how global state is consumed by the components.
-Describe the operation of the hook: useForm().
+Setting values and a setter are passed around the app via React Context.
+
+Describe the operation of the hook: useForm():
+useForm() is a custom hook which provides a set of handlers for processing form changes/submissions.

@@ -1,8 +1,7 @@
 import { useState, useEffect, useContext } from 'react';
 import { SettingsContext } from '../../Context/Settings/index'
 
-import { AppShell, Text, Title, Center, Pagination, ActionIcon } from '@mantine/core';
-import { useDisclosure } from '@mantine/hooks';
+import { AppShell, Title, Pagination, ActionIcon } from '@mantine/core';
 
 import Form from '../Form'
 import TodoList from '../List';
@@ -13,7 +12,7 @@ function TodoApp() {
     const [incomplete, setIncomplete] = useState(0);
     const [activePage, setActivePage] = useState(1);
 
-    const [opened, { toggle }] = useDisclosure();
+
     const settings = useContext(SettingsContext);
     const { displayCount } = settings;
 
@@ -66,44 +65,29 @@ function TodoApp() {
     }
 
     return (
-        <AppShell
-        header={{ height: 60, color: "cyan" }}
-        footer={{ height: 40, color: "cyan"}}
-        navbar={{ width: 300, breakpoint: 'sm', collapsed: { mobile: !opened } }}
-        padding="md"
-      >
-        <AppShell.Header ta="left" bg="blue">
-          <Center maw={60} h={60}>
-            <Text c="white">HOME</Text>
-          </Center>
-        </AppShell.Header>
-        
+      <>
         <AppShell.Navbar p="md">
           <Form handleAddTodo={ addItem } />
         </AppShell.Navbar>
-
+  
         <AppShell.Main m={10}>
-            <Title c="white" 
-                   bg="grey" 
-                   order={3} 
-                   data-testid="todo-h1"
-                   p={5}
-                   mb={15}
-            >
-              To-Do List: { incomplete ? incomplete : 0 } items pending.
-            </Title>
-            <TodoList list={ displayList }
-                      completeHandler={ toggleComplete }
-            />
-            { list.length > displayCount ?
-            <Pagination mt={ 25 } value={ activePage } onChange={ setActivePage } total={ Math.ceil(list.length /displayCount) } />
-            : null }
-        </AppShell.Main>
-
-        <AppShell.Footer bg="blue">
         
-        </AppShell.Footer>
-      </AppShell>
+          <Title  c="white" 
+                  bg="grey" 
+                  order={3} 
+                  data-testid="todo-h1"
+                  p={5}
+                  mb={15} >
+                  To-Do List: { incomplete ? incomplete : 0 } items pending.
+          </Title>
+          <TodoList list={ displayList }
+          completeHandler={ toggleComplete }
+          />
+          { list.length > displayCount 
+                        ? <Pagination mt={ 25 } value={ activePage } onChange={ setActivePage } total={ Math.ceil(list.length /displayCount) } />
+                        : null }      
+        </AppShell.Main>
+      </>
     )
 }
 
