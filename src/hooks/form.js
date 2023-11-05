@@ -6,6 +6,8 @@ const useForm = (callback, defaultValues={}) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    //console.log('values in form:', values);
+
     callback({...values});
   };
 
@@ -13,9 +15,12 @@ const useForm = (callback, defaultValues={}) => {
     let name, value;
     if(typeof(event) === 'object'){
       name = event.target.name;
-      value = event.target.value;
+      if (event.target.type === 'checkbox') {
+        value = event.target.checked
+      } else {
+        value = event.target.value;
+      }
     } else {
-      //console.log('event from slider', event)
       // hard coded for Mantine slider functionality 
       // change "difficulty" language if desired
       // change name dynamically if doing stretch goal!
@@ -26,9 +31,22 @@ const useForm = (callback, defaultValues={}) => {
     if (parseInt(value)) {
       value = parseInt(value);
     }
-
     setValues(values => ({ ...values, [name]: value }));
   };
+  
+  const handleItemCountChange = (event) => {
+    let name, value;
+    
+    //console.log('item count:', event)
+    name = 'displayCount';
+    value = event;
+
+    if (parseInt(value)) {
+      value = parseInt(value);
+    }
+    setValues(values => ({ ...values, [name]: value }));
+  }
+
 /*
   useEffect( () => {
     setValues( defaultValues );
@@ -37,6 +55,7 @@ const useForm = (callback, defaultValues={}) => {
   return {
     handleChange,
     handleSubmit,
+    handleItemCountChange,
     values,
   };
 };

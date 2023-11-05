@@ -1,12 +1,11 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import '@mantine/core/styles.css';
-import { MantineProvider, Burger } from '@mantine/core';
+import { MantineProvider } from '@mantine/core';
 
-
-import SettingsProvider from './Context/Settings';
+import SettingsProvider from './Context/Settings/index';
 import Layout from './Components/Layout';
 import TodoApp from './Components/TodoApp';
-import SettingsForm from './Components/SettingsForm';
+import SettingsPage from './Components/SettingsPage';
 
 function App() {
 
@@ -14,15 +13,15 @@ function App() {
       <>
       <MantineProvider>
         <SettingsProvider>
-          <BrowserRouter>
-            <Routes>
-              <Route path="/" element={<Layout />}>
-                <Route index element={<TodoApp />} />
-                <Route path="settings" element={<SettingsForm />} />
-              </Route>
-            </Routes>
-          </BrowserRouter>
-        </SettingsProvider>
+            <BrowserRouter>
+              <Routes>
+                <Route path="/" element={<Layout />}>
+                  <Route index element={<TodoApp />} />
+                  <Route path="settings" element={<SettingsPage />} />
+                </Route>
+              </Routes>
+            </BrowserRouter>
+          </SettingsProvider>
       </MantineProvider>
       </>
     );

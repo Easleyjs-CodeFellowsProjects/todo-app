@@ -3,7 +3,6 @@ import { SettingsContext } from '../../Context/Settings/index'
 
 import { AppShell, Title, Pagination, ActionIcon } from '@mantine/core';
 
-
 import Form from '../Form'
 import TodoList from '../List';
 
@@ -80,13 +79,13 @@ function TodoApp() {
                   p={5}
                   mb={15} >
                   To-Do List: { incomplete ? incomplete : 0 } items pending.
-                  </Title>
-                  <TodoList list={ displayList }
-                  completeHandler={ toggleComplete }
+          </Title>
+          <TodoList list={ displayList }
+          completeHandler={ toggleComplete }
           />
-          { list.length > displayCount ?
-            <Pagination mt={ 25 } value={ activePage } onChange={ setActivePage } total={ Math.ceil(list.length /displayCount) } />
-              : null }      
+          { list.length > displayCount 
+                        ? <Pagination mt={ 25 } value={ activePage } onChange={ setActivePage } total={ Math.ceil(list.length /displayCount) } />
+                        : null }      
         </AppShell.Main>
       </>
     )
