@@ -6,18 +6,20 @@ import { Button, Input, Slider, Space, Text } from '@mantine/core';
 
 import { v4 as uuid } from 'uuid';
 
-const Form = () => {
+const Form = ( props ) => {
     const settings = useContext(SettingsContext);
+    const { handleAddTodo } = props;
 
-    //const [list, setList] = useState([]);
-    //const [incomplete, setIncomplete] = useState([]);
+    const { handleChange, handleSubmit } = useForm(addItem, {
+        difficulty: settings.defaultDifficulty,
+      });
     //const { handleChange, handleSubmit } = useForm(addItem);
 
-    function addItem(item) {
+    function addItem( item ) {
         item.id = uuid();
         item.complete = false;
-        console.log(item);
-        //setList([...list, item]);
+        //console.log( item );
+        handleAddTodo( item );
       }
 
       const marks = [
@@ -28,24 +30,23 @@ const Form = () => {
         { value: 5, label: '5' },
       ];
 
-
     return (
         <>
-            <form onSubmit={null}>
+            <form onSubmit={ handleSubmit }>
 
                 <h2>Add To Do Item</h2>
             
                 <Input.Label>To Do Item</Input.Label>
-                <Input onChange={null} name="text" placeholder="Item Details" />
+                <Input onChange={ handleChange } name="text" placeholder="Item Details" />
                 
                 <Space h="md"></Space>            
                 
                 <Input.Label>Assigned To</Input.Label>
-                <Input onChange={null} name="assignee" placeholder="Assignee Name" />
+                <Input onChange={ handleChange } name="assignee" placeholder="Assignee Name" />
                 <Space h="md"></Space>
                 
                 <Text>Difficulty</Text>
-                <Slider onChange={null} 
+                <Slider onChange={ handleChange } 
                         defaultValue={ settings.defaultDifficulty } 
                         min={1}
                         max={5}

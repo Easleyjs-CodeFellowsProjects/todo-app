@@ -13,6 +13,8 @@ class SettingsProvider extends React.Component {
     }
   }
 
+  
+
   render() {
     return (
       <SettingsContext.Provider value={this.state}>

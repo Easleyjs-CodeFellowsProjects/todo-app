@@ -21,7 +21,8 @@ NOTE: The expectation to style this entire component in one day is likely unreal
 ## Details
 
 1. Implement the React context API for defining settings across the entire application.
-Create React Context for managing application display settings and provide this at the application level.
+- Create React Context for managing application display settings and provide this at the application level.
+
 Add the following defaults to the context provider’s state, they will not be changeable in this lab.
 Display three items.
 Hide completed items using a boolean.
