@@ -7,13 +7,45 @@ npm i
 uuid sass jest
 
 ## Requirements
-- Create a Detailed UML.
-- Properly modularize the application into separate components, note the proposed file structure below.
-- Implement the Context API to make some basic application settings available to components.
+As a user, I want to provide a way for other users to create new accounts.
+As a user, I want to provide a way for all users to login to their account.
+As a user, I want to make sure that my To Do items are only viewable to users that have logged in with a valid account.
+As a user, I want to ensure that only fellow users that are allowed to “create”, based on their user type, can add new To Do Items.
+As a user, I want to ensure that only fellow users that are allowed to “update”, based on their user type, can mark To Do Items complete.
+As a user, I want to ensure that only fellow users that are allowed to “delete”, based on their user type, can delete new To Do Items.
 
-Show three items by default.
-Hide completed items by default.
-Add the sort word ‘difficulty’ by default.
+Implement a Login/Auth React Context, “protect” the To Do application by restricting access to the various application features based on the users’ login status and capabilities.
+
+**Define a function that can simulate a login event.**
+Parameters: username and password as strings.
+Sets a User on the auth context, and changes login status to true.
+
+**Define a function that can simulate a logout event.**
+Resets the User object and changes login status to `false.
+
+**Define a function that can authorize a User based on a capability.**
+Parameters: a capability as a string.
+Returns a boolean whether the user has the capability parameter.
+
+**Create an <Auth /> component with the following features:**
+Given a **capability** prop of type string, conditionally render components based on the user stored in context.
+Hide the entire interface until the user has logged in.
+
+Implements the following RBAC rules:
+- Logged In Users with ‘update’ permissions can click the records to mark them as complete.
+- Logged In Users with ‘create’ permissions can create new items.
+- Logged In Users with ‘delete’ permissions can delete items.
+- Logged In Users with ‘read’ permissions can see the list of To Do Items.
+
+Note: since only writers can ‘create’ and add new Todo items to state, in this lab, a person with read only access will not see any Todo items. This will change in the next lab once we populate Todo items from a database on page load.
+
+**Implement a <Login /> Component that has the following features:**
+Provide an account login screen with a form.
+Accepts Username and Password.
+On successful login, store the token as a cookie.
+
+If a user returns and has a valid login cookie, hide the login form and consider them “Logged In”.
+Display a logout button instead of a form if they are “Logged In”.
 
 ## Details
 
