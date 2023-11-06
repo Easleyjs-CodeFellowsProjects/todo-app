@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import '@mantine/core/styles.css';
 import { MantineProvider } from '@mantine/core';
 
+import AuthProvider from './Context/Auth'
 import SettingsProvider from './Context/Settings/index';
 import Layout from './Components/Layout';
 import TodoApp from './Components/TodoApp';
@@ -13,6 +14,7 @@ function App() {
       <>
       <MantineProvider>
         <SettingsProvider>
+          <AuthProvider>
             <BrowserRouter>
               <Routes>
                 <Route path="/" element={<Layout />}>
@@ -21,6 +23,7 @@ function App() {
                 </Route>
               </Routes>
             </BrowserRouter>
+            </AuthProvider>
           </SettingsProvider>
       </MantineProvider>
       </>
