@@ -3,6 +3,7 @@ import { SettingsContext } from '../../Context/Settings/index'
 
 import { AppShell, Title, Pagination, ActionIcon } from '@mantine/core';
 
+import Auth from '../Auth';
 import Form from '../Form'
 import TodoList from '../List';
 
@@ -27,7 +28,7 @@ function TodoApp() {
         const { displayCount } = settings;
 
         if ( activePage > 1) {
-          console.log('page greater than 1:', activePage)
+          //console.log('page greater than 1:', activePage)
           const startIdx = ( activePage -1 ) * displayCount;
           const endIdx = startIdx + displayCount;
 
@@ -66,9 +67,11 @@ function TodoApp() {
 
     return (
       <>
-        <AppShell.Navbar p="md">
-          <Form handleAddTodo={ addItem } />
-        </AppShell.Navbar>
+        <Auth capability={'create'}>
+          <AppShell.Navbar p="md">
+            <Form handleAddTodo={ addItem } />
+          </AppShell.Navbar>
+        </Auth>
   
         <AppShell.Main m={10}>
         
@@ -80,9 +83,8 @@ function TodoApp() {
                   mb={15} >
                   To-Do List: { incomplete ? incomplete : 0 } items pending.
           </Title>
-          <TodoList list={ displayList }
-          completeHandler={ toggleComplete }
-          />
+
+          <TodoList list={ displayList } completeHandler={ toggleComplete } />
           { list.length > displayCount 
                         ? <Pagination mt={ 25 } value={ activePage } onChange={ setActivePage } total={ Math.ceil(list.length /displayCount) } />
                         : null }      

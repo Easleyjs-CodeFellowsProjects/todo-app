@@ -1,8 +1,12 @@
 import { Card, Text, Badge, Button, Group, CloseButton } from '@mantine/core';
 
+import Auth from '../Auth';
+
 const Todo = ( props ) => {
   const { id, text, assignee, difficulty, complete } = props.item;
   const { completeHandler } = props;
+
+  
   return (
     <Card shadow="sm" padding="lg" radius="md" maw={400} mt={5} withBorder>
       <Group mt="md" mb="xs">
@@ -20,9 +24,11 @@ const Todo = ( props ) => {
       Difficulty: { difficulty }
       </Text>
       
-      <Button variant="light" color="blue" mt="md" radius="md" onClick={() => completeHandler(id)}>
-        Complete
-      </Button>
+      <Auth capability="update">
+        <Button variant="light" color="blue" mt="md" radius="md" onClick={() => completeHandler(id)}>
+          Complete
+        </Button>
+      </Auth>
     </Card>
   );
 };
