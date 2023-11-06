@@ -5,7 +5,7 @@ export const SettingsContext = React.createContext();
 function SettingsProvider (props) {
   const [settings, setSettings] = useState({
     displayCount: 3,
-    hideCompleted: false,
+    hideCompleted: true, //false,
     sort: 'difficulty',
     defaultDifficulty: 3,
     settingsUpdated: false,

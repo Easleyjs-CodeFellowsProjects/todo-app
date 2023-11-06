@@ -7,6 +7,7 @@ import SettingsProvider from './Context/Settings/index';
 import Layout from './Components/Layout';
 import TodoApp from './Components/TodoApp';
 import SettingsPage from './Components/SettingsPage';
+import SignupPage from './Components/SignupPage';
 
 function App() {
 
@@ -20,6 +21,7 @@ function App() {
                   <Route path="/" element={<Layout />}>
                     <Route index element={<TodoApp />} />
                     <Route path="settings" element={<SettingsPage />} />
+                    <Route path="signup" element={<SignupPage />} />
                   </Route>
                 </Routes>
               </BrowserRouter>

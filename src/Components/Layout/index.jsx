@@ -23,6 +23,7 @@ const Layout = () => {
                         <Grid.Col span="auto">
                             <Link to="/">HOME</Link>
                             <Link to="/settings">SETTINGS</Link>
+                            <Link to="/signup">SIGNUP</Link>
                         </Grid.Col>
                         <Grid.Col span="content">
                             <Center>
