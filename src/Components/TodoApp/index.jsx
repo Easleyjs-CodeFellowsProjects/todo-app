@@ -1,5 +1,7 @@
 import { useState, useEffect, useContext } from 'react';
+import { AuthContext } from '../../Context/Auth';
 import { SettingsContext } from '../../Context/Settings/index'
+import axios from 'axios';
 
 import { AppShell, Title, Pagination, ActionIcon } from '@mantine/core';
 
@@ -7,45 +9,61 @@ import Auth from '../Auth';
 import Form from '../Form'
 import TodoList from '../List';
 
+const SERVER_URL = import.meta.env.VITE_DEV_SERVER_URL || 'http://localhost:3001';
+
 function TodoApp() {
     const [list, setList] = useState([]);
     const [displayList, setDisplayList] = useState([]);
     const [incomplete, setIncomplete] = useState(0);
     const [activePage, setActivePage] = useState(1);
 
-
+    const context = useContext(AuthContext);
     const settings = useContext(SettingsContext);
     const { displayCount } = settings;
 
+    // we'll see how this one goes. not really using state list anymore
+    // will depend on being in sync w/ server. i.e. list will be on there.
+    // only displayList in state really
     useEffect(() => {
-        let incompleteCount = list.filter(item => !item.complete).length;
-        setIncomplete(incompleteCount);
-        document.title = `To Do List: ${incomplete}`;
-        // linter will want 'incomplete' added to dependency array unnecessarily. 
-        // disable code used to avoid linter warning 
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-        let pagedItemArr = [];
-        const { displayCount } = settings;
-
-        if ( activePage > 1) {
-          //console.log('page greater than 1:', activePage)
-          const startIdx = ( activePage -1 ) * displayCount;
-          const endIdx = startIdx + displayCount;
-
-          if ( endIdx < list.length -1 ) {
-            pagedItemArr = list.slice( startIdx, endIdx );
-          } else {
-            pagedItemArr = list.slice( startIdx )
+      const config = {
+          method: 'get',
+          url: SERVER_URL + '/article',
+          headers: {Authorization: `bearer ${context.token}`}
+        }
+      
+      axios(config).then(response => {
+          const list = response.data;
+  
+          let incompleteCount = list.filter(item => !item.complete).length;
+          setIncomplete(incompleteCount);
+          document.title = `To Do List: ${incomplete}`;
+  
+          let pagedItemArr = [];
+          const { displayCount } = settings;
+          
+          if ( activePage > 1) {
+            //console.log('page greater than 1:', activePage)
+            const startIdx = ( activePage -1 ) * displayCount;
+            const endIdx = startIdx + displayCount;
+      
+            if ( endIdx < list.length -1 ) {
+              pagedItemArr = list.slice( startIdx, endIdx );
+            } else {
+              pagedItemArr = list.slice( startIdx )
+            }
+            setDisplayList( pagedItemArr );
           }
-          setDisplayList( pagedItemArr );
-        }
-        if ( activePage === 1 ) {
-          let pagedItemArr = list.slice(0, displayCount);
-          setDisplayList( pagedItemArr );
-        }
-      }, [list, activePage]);
+          if ( activePage === 1 ) {
+            let pagedItemArr = list.slice(0, displayCount);
+            setDisplayList( pagedItemArr );
+          }
+          //setArticleList(response.data);
+      });
+  
+  }, [list, activePage]);
 
     function addItem( item ) {
+      // will need to refactor this to use axios
       const newList = [...list, item];
       setList(newList);
     }
