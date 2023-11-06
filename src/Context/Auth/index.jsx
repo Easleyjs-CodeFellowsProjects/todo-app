@@ -37,7 +37,7 @@ function AuthProvider(props) {
   const login = (username, password) => {
     // find the user from above whose credentials match
     let user = testUsers[username];
-    console.log(user, username, password);
+    //onsole.log(user, username, password);
     if (user && user.password === password) {
       let tokenPayload = jwtDecode(user.token);
       tokenPayload = tokenPayload.capabilities.replace(/'/g, '"');

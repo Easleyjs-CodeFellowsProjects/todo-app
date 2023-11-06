@@ -9,14 +9,14 @@ function Login() {
   const auth = useContext(AuthContext);
 
   const handleSubmit = (e) => {
-    console.log('Form is submitted!!');
+    //console.log('Form is submitted!!');
     e.preventDefault();
     let username = e.target.username.value;
     let password = e.target.password.value;
-    console.log('VALUES FROM THE FORM!', username, password);
+    //console.log('VALUES FROM THE FORM!', username, password);
     auth.login(username, password);
   }
-  console.log(auth);
+  //console.log(auth);
   return (
     <>
       {!auth.isLoggedIn
