@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { AuthContext } from '../context/auth/AuthProvider';
+import { AuthContext } from '../../Context/Auth';
 
 function Auth({ capability, children }) {
 

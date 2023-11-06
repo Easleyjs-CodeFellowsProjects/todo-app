@@ -15,14 +15,14 @@ function App() {
       <MantineProvider>
         <SettingsProvider>
           <AuthProvider>
-            <BrowserRouter>
-              <Routes>
-                <Route path="/" element={<Layout />}>
-                  <Route index element={<TodoApp />} />
-                  <Route path="settings" element={<SettingsPage />} />
-                </Route>
-              </Routes>
-            </BrowserRouter>
+              <BrowserRouter>
+                <Routes>
+                  <Route path="/" element={<Layout />}>
+                    <Route index element={<TodoApp />} />
+                    <Route path="settings" element={<SettingsPage />} />
+                  </Route>
+                </Routes>
+              </BrowserRouter>
             </AuthProvider>
           </SettingsProvider>
       </MantineProvider>

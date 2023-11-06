@@ -1,5 +1,6 @@
 import { useContext } from 'react';
-import { AuthContext } from '../context/auth/AuthProvider';
+import { AuthContext } from '../../Context/Auth';
+import { Grid, TextInput, Button } from '@mantine/core';
 
 function Login() {
   // const [username, setUsername] = useState('');
@@ -17,18 +18,31 @@ function Login() {
   }
   console.log(auth);
   return (
-    <div>
+    <>
       {!auth.isLoggedIn
         ? (
-          <form onSubmit={handleSubmit}>
-            <input name="username" type="text" placeholder="username"/>
-            <input name="password" type="password" placeholder="password" />
-            <button type="submit" >Login!</button>
-          </form>
+            <form onSubmit={handleSubmit}>
+                <Grid>
+                    <Grid.Col span="auto">
+                        <TextInput name="username" 
+                        placeholder="username"
+                        />
+                    </Grid.Col>
+                    <Grid.Col span="auto">
+                        <TextInput name="password" 
+                        type="password" 
+                        placeholder="password" 
+                        />
+                    </Grid.Col>
+                    <Grid.Col span="auto">
+                        <Button variant="default" type="submit" >Login</Button>
+                    </Grid.Col>
+                </Grid>
+            </form>
         ) 
-        : (<button onClick={auth.logout}>logout</button>)
+        : (<Button variant="outline" color="red" onClick={auth.logout}>logout</Button>)
       }
-    </div>
+      </>
   )
 }
 
