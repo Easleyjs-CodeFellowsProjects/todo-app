@@ -4,22 +4,23 @@ import { SettingsContext } from '../../Context/Settings/index'
 import Todo from '../Todo';
 
 const TodoList = ( props ) => {
-    
     const settings = useContext(SettingsContext);
-    const { hideCompleted } = settings.settings;
-
-    const { list, completeHandler } = props;
-
+    
+    const { list, completeHandler, closeHandler } = props;
+    //console.log('todo list:', list);
+    
     return (
         <>
-            {list ? list.map( item => (
-                item.complete === false || hideCompleted !== false ?
-                <Todo key={ item.id } 
+            {
+                list ? list.map( item => (
+                    <Todo key={ item.id } 
                       item={ item } 
-                      completeHandler={ completeHandler } 
-                />
-                : null
-            )) : null}
+                      completeHandler={ completeHandler }
+                      closeHandler={ closeHandler }
+                    />
+                    //: null
+                )) : null
+            }
         </>
     )
 };

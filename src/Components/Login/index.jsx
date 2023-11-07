@@ -19,7 +19,7 @@ function Login() {
   //console.log(auth);
   return (
     <>
-      {!auth.isLoggedIn
+      {!auth.loggedIn
         ? (
             <form onSubmit={handleSubmit}>
                 <Grid>

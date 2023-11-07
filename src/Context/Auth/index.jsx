@@ -1,8 +1,12 @@
 import React, { useState } from 'react';
+import cookie from 'react-cookies';
+import axios from 'axios';
 import { jwtDecode } from 'jwt-decode';
 
-export const AuthContext = React.createContext(); 
+const SERVER_URL = import.meta.env.VITE_DEV_SERVER_URL || 'http://localhost:3001'
 
+export const AuthContext = React.createContext(); 
+/*
 const testUsers = {
   Administrator: {
     password: 'admin',
@@ -25,37 +29,81 @@ const testUsers = {
     token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiVXNlciIsInJvbGUiOiJ1c2VyIiwiY2FwYWJpbGl0aWVzIjoiWydyZWFkJ10iLCJpYXQiOjE1MTYyMzkwMjJ9.WXYvIKLdPz_Mm0XDYSOJo298ftuBqqjTzbRvCpxa9Go'
   },
 };
-
+*/
 function AuthProvider(props) {
 
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(false);
   const [user, setUser] = useState(null);
+  let [token, setToken] = React.useState(null);
   const [error, setError] = useState(null);
   const [capabilities, setCapabilities] = useState(null);
 
-  // we will want to refactor this eventually.
-  const login = (username, password) => {
-    // find the user from above whose credentials match
-    let user = testUsers[username];
-    //onsole.log(user, username, password);
-    if (user && user.password === password) {
-      let tokenPayload = jwtDecode(user.token);
-      tokenPayload = tokenPayload.capabilities.replace(/'/g, '"');
-      setCapabilities(JSON.parse(tokenPayload));
-      setUser(user);
-      setIsLoggedIn(true);
-    } else {
-      console.log('Error occured on login');
-      setError({ code: 401, message: 'Incorrect Credentials'});
-    }
-  }
-  const logout = () => {
-    setUser(null);
-    setIsLoggedIn(false);
+
+  const can = (capability) => {
+    // more than 1 capability,  update this funciton to take and array of capbilities.
+    return user?.capabilities?.includes(capability);
   }
 
+  // we now should talk to the server.
+  const login = async (username, password) => {
+    // basic auth!
+    // base64 encode the username and password
+    let encodedCredentials = btoa(`${username}:${password}`);
+
+    // attach to the request header
+    try {
+      const config = {
+        method: 'post',
+        url: `${SERVER_URL}/signin`,
+        headers: { Authorization: `Basic ${encodedCredentials}` }
+      }
+      let response = await axios(config);
+      // token comes back in the response
+      if (response.data) {
+        console.log(response.data);
+        validateToken(response.data.token);
+      }
+    } catch (e) {
+      console.log(e.message);
+      setLoginState(loggedIn, token, user, e);
+      console.error(e);
+    }
+  }
+
+  const logout = () => {
+    setLoginState(false, null, { capabilities: [] });
+  }
+
+  const validateToken = (token) => {
+    try {
+      let validUser = jwtDecode(token);
+      setLoginState(true, token, validUser);
+    }
+    catch (e) {
+      setLoginState(false, null, {capabilities: []}, e);
+      console.log('Token Validation Error', e);
+    }
+  }
+
+  React.useEffect(() => {
+    const qs = new URLSearchParams(window.location.search);
+    const cookieToken = cookie.load('auth');
+    const token = qs.get('token') || cookieToken || null;
+    validateToken(token);
+  }, []);
+
+  const setLoginState = (loggedIn, token, user, error) => {
+    cookie.save('auth', token);
+    // this.setState({ token, loggedIn, user, error: error || null });
+    setToken(token);
+    setLoggedIn(loggedIn);
+    setUser(user);
+    setError(error || null);
+  }
+  console.log(loggedIn, user, error);
+
   return (
-    <AuthContext.Provider value={{ login, logout, user, isLoggedIn, error, capabilities }}>
+    <AuthContext.Provider value={{ loggedIn, can, login, token, logout, user, error, capabilities }}>
       {props.children}
     </AuthContext.Provider>
   )

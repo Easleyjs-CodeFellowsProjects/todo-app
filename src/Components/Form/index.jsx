@@ -4,21 +4,18 @@ import { SettingsContext } from '../../Context/Settings'
 import useForm from '../../hooks/form';
 import { Button, Input, Slider, Space, Text } from '@mantine/core';
 
-import { v4 as uuid } from 'uuid';
-
 const Form = ( props ) => {
   const settings = useContext(SettingsContext);
   const { defaultDifficulty } = settings.settings;
-    const { handleAddTodo } = props;
+  const { handleAddTodo } = props;
 
-    const { handleChange, handleSubmit } = useForm(addItem, {
-        difficulty: defaultDifficulty,
-      });
+  const { handleChange, handleSubmit } = useForm(addItem, {
+      difficulty: defaultDifficulty,
+    });
 
     function addItem( item ) {
-        item.id = uuid();
-        item.complete = false;
-        //console.log( item );
+        item.complete = 'false';
+        //console.log('raw item:', item );
         handleAddTodo( item );
       }
 

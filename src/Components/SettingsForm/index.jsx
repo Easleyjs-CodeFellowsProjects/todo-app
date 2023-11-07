@@ -6,10 +6,10 @@ import { Button, Switch, NumberInput, Space } from '@mantine/core';
 
 function SettingsForm() {
     const settings = useContext(SettingsContext);
-    const { defaultDifficulty } = settings.settings;
+    const { defaultDifficulty, hideCompleted } = settings.settings;
     const { updateSettings } = settings;
 
-    const { handleChange, handleSubmit, handleItemCountChange } = useForm(updateSettings, {
+    const { handleChange, handleSubmit, handleItemCountChange, handleShowCompletedChange } = useForm(updateSettings, {
         difficulty: defaultDifficulty,
     });
  
@@ -17,10 +17,11 @@ function SettingsForm() {
       <>
         <form onSubmit={ handleSubmit }>
             <Switch
-                defaultChecked={ true }
+                //checked={ hideCompleted }
                 label="Show Completed To-Dos"
                 name="hideCompleted"
-                onChange={ handleChange }
+                onChange={ handleShowCompletedChange }
+                defaultChecked={ hideCompleted }
                 mt={25}
             />
 
